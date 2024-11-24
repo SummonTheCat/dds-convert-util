@@ -58,8 +58,11 @@ pub async fn convert_to_dds(
                     e
                 )
             })?
-            .to_rgba8();
+            .to_rgba32f();
 
+        // Apply gamma correction to the image.
+        let image = apply_gamma_correction(&image);
+        
         // Create default DDS conversion configuration.
         let config = DdsConvertConfig::new();
 
@@ -67,7 +70,7 @@ pub async fn convert_to_dds(
         let image_format = map_channels_format(channels);
 
         // Convert the image to DDS format.
-        let dds_result = image_dds::dds_from_image(
+        let dds_result = image_dds::dds_from_imagef32(
             &image,
             image_format,
             config.quality,
@@ -113,4 +116,17 @@ pub async fn convert_to_dds(
     .map_err(|e| format!("Failed to spawn blocking task: {}", e))??;
 
     Ok(result)
+}
+
+
+fn apply_gamma_correction(image: &image::Rgba32FImage) -> image::Rgba32FImage {
+    image::Rgba32FImage::from_fn(image.width(), image.height(), |x, y| {
+        let pixel = image.get_pixel(x, y);
+        image::Rgba([
+            pixel[0].powf(1.0 / 2.2),
+            pixel[1].powf(1.0 / 2.2),
+            pixel[2].powf(1.0 / 2.2),
+            pixel[3],
+        ])
+    })
 }

@@ -19,7 +19,7 @@ impl DdsConvertConfig {
     /// * `Self` - An instance of `DdsConvertConfig` with preset configurations.
     pub fn new() -> Self {
         Self {
-            quality: image_dds::Quality::Fast,
+            quality: image_dds::Quality::Normal,
             mipmaps: image_dds::Mipmaps::GeneratedAutomatic,
         }
     }

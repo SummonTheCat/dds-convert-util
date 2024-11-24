@@ -1,14 +1,14 @@
 # Input directory path containing images to be processed
-path_in = "./samples"
+path_in = "./sample/samples_in"
 
 # Output directory path where processed images will be saved
-path_out = "./output"
+path_out = "./sample/samples_out"
 
 # Maximum directory traversal depth
 max_depth = 3
 
 # List of target widths for resizing images
-target_sizes = [1024, 2048, 4096]
+target_sizes = [512, 1024, 2048]
 
 # Number of threads to use for concurrent processing
 threads = 4
